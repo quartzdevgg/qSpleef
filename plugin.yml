@@ -1,0 +1,9 @@
+name: SpleefPlugin
+main: com.rose.SpleefPlugin.SpleefPlugin
+version: 1.0
+api-version: 1.16
+commands:
+   spleef:
+      description: Commands for the game
+      permission: spleef.command
+      usage: Error!
