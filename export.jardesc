@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/rose/Desktop/MINECRAFT/Spleef.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/MC-Spleef/export.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="C:/Users/derek/Documents/Minecraft/Test Server/spigot 1.16.5/plugins/qSpleef.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/Spleef/export.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
@@ -11,9 +11,10 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=MC-Spleef/src"/>
-        <file path="/MC-Spleef/.project"/>
-        <file path="/MC-Spleef/plugin.yml"/>
-        <file path="/MC-Spleef/.classpath"/>
+        <file path="/Spleef/config.yml"/>
+        <javaElement handleIdentifier="=Spleef/src"/>
+        <file path="/Spleef/.classpath"/>
+        <file path="/Spleef/plugin.yml"/>
+        <file path="/Spleef/.project"/>
     </selectedElements>
 </jardesc>

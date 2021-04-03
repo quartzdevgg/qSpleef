@@ -1,0 +1,6 @@
+###	qSpleef Config
+
+# defaulted to this if not specified
+default:
+   floor-material: SNOW_BLOCK
+         
