@@ -1,8 +1,11 @@
-package com.QarthO.Spleef.Commands;
+package com.QarthO.Spleef;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,13 +14,25 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
+import com.QarthO.Spleef.Arena.Arena;
 import com.QarthO.Spleef.Arena.ArenasManager;
 import com.QarthO.Spleef.utils.Language;
 
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
+
+
+
+
 public class CommandsManager implements TabExecutor{
 	
+	Set<Command> set = new HashSet<Command>();
+	
+	
 	String[] CMDs = {
-			"help", "helpmod", "helpadmin", "join", "leave", "spectate", "spec", "list", "create", "delete", "start", "set", "getinfo", "debug"
+			"help", "helpmod", "helpadmin", "join", "leave", "spectate", "spec", "list", "create", "delete", "start", "set", "reset", "getinfo", "debug"
 			};
 	
 	String project_name = "Spleef";
@@ -28,8 +43,12 @@ public class CommandsManager implements TabExecutor{
 	
 	public CommandsManager(ArenasManager arenas) {
 		this.arenas = arenas;
+		
+		
+		
+		
+		
 	}
-	
 	
 	private boolean isCommand(String cmd){
 		for(String command : CMDs){
@@ -40,8 +59,6 @@ public class CommandsManager implements TabExecutor{
 		return false;
 	}
 	
-	
-
 	@Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		
@@ -58,7 +75,7 @@ public class CommandsManager implements TabExecutor{
 		
 		if(commandLabel.equalsIgnoreCase(cmd_label)){
 			if(args.length == 0){
-				player.sendMessage(ChatColor.LIGHT_PURPLE + project_name + " v" + version);
+				player.sendMessage(Language.CMD_INFO.getMessage());
 				return false;
 			}
 		}
@@ -69,6 +86,7 @@ public class CommandsManager implements TabExecutor{
 			player.sendMessage(Language.ERROR_UKNOWN_COMMAND.getMessage());
 			return false;
 		}
+		
 		
 		
 		//	Help menus
@@ -103,21 +121,21 @@ public class CommandsManager implements TabExecutor{
 		
 		if(args[0].equalsIgnoreCase("create")) {
 			if(args.length !=2) {
-				player.sendMessage(Language.CHAT_PREFIX.getMessage() + Language.SYNTAX_CREATE.getMessage());
+				player.sendMessage(Language.SYNTAX_CREATE.getMessage());
 				return false;
 			}
 			if(arenas.exists(args[1])) {
-				player.sendMessage(Language.CHAT_PREFIX.getMessage() + "" + ChatColor.RED + "Error: Arena " + ChatColor.YELLOW + args[1] + ChatColor.RED + " already exists!" );
+				player.sendMessage(ChatColor.RED + "Error: Arena " + ChatColor.YELLOW + args[1] + ChatColor.RED + " already exists!" );
 				return false;
 			}
-			player.sendMessage(Language.CHAT_PREFIX.getMessage()  + "" + ChatColor.GREEN + "Creating arena: " + ChatColor.YELLOW + args[1] + ChatColor.GREEN + "...");
+			player.sendMessage(ChatColor.GREEN + "Creating arena: " + ChatColor.YELLOW + args[1] + ChatColor.GREEN + "...");
 			arenas.createArena(player, args[1]);
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("delete")) {
 			if(args.length !=2) {
-				player.sendMessage(Language.CHAT_PREFIX.getMessage() + Language.SYNTAX_DELETE.getMessage());
+				player.sendMessage(Language.SYNTAX_DELETE.getMessage());
 				return false;
 			}
 			if(!arenas.exists(args[1])) {
@@ -125,7 +143,7 @@ public class CommandsManager implements TabExecutor{
 				return false;
 			}
 			arenas.delete(args[1]);
-			player.sendMessage(Language.CHAT_PREFIX.getMessage()  + "" + ChatColor.GREEN + "Arena: " + ChatColor.YELLOW + args[1] + ChatColor.GREEN + " deleted");
+			player.sendMessage(Language.CHAT_PREFIX + "" + ChatColor.GREEN + "Arena " + ChatColor.YELLOW + args[1] + ChatColor.GREEN + " deleted");
 			return true;
 		}
 		
@@ -138,33 +156,56 @@ public class CommandsManager implements TabExecutor{
 			
 		}
 		
+		if(args[0].equalsIgnoreCase("reset")) {
+			if(args.length !=2) {
+				player.sendMessage(Language.SYNTAX_RESET.getMessage());
+				return false;
+			}
+			
+			Arena arena = arenas.getArena(args[1]);
+			arena.replaceFloor();
+			player.sendMessage(Language.CHAT_PREFIX.getMessage() + "" + ChatColor.YELLOW + arena.getName() + ChatColor.GREEN + "'s floor replaced");
+		}
+		
+		
+		
+		
 		//
 		
 		if(args[0].equalsIgnoreCase("join")) {
-			//game.player_join(player);
+			Arena arena = arenas.getArena(args[1]);
+			arena.player_join(player);
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("leave")) {
+			//Arena arena = arenas.getArena(args[1]);
 			//game.player_leave(player);
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("spectate") || args[0].equalsIgnoreCase("spec")) {
-			//game.player_spec(player);
+			Arena arena = arenas.getArena(args[1]);
+			arena.player_spec(player);
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("debug")) {
-			String debug_msg = Language.CHAT_PREFIX.getMessage() + "" + ChatColor.DARK_GRAY + "  | DEBUG |  " + ChatColor.RESET;
-			arenas.delete(args[1]);
-			player.sendMessage(debug_msg + "Arena " + args[1] + " deleted");
-				
+			
+			String debug_prefix = ChatColor.DARK_GRAY + "  | DEBUG |  " + ChatColor.RESET;
+			String debug_msg = ChatColor.YELLOW + "";
+			
+			TextComponent message = new TextComponent("Click me");
+			message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org"));
+			message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the Spigot website!")));
+
+			
+			player.spigot().sendMessage(message);
 			return true;
 		}
 		
 		if(args[0].equalsIgnoreCase("list")) {
-			player.sendMessage(Language.CHAT_PREFIX.getMessage() + "Arenas: " + arenas.getArenaList());
+			player.sendMessage("Arenas: " + arenas.getArenaList());
 		}
 		
         return false;
@@ -172,6 +213,7 @@ public class CommandsManager implements TabExecutor{
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+		
 		List<String> completions = new ArrayList<>();
         List<String> commands = new ArrayList<>();
 
@@ -183,6 +225,17 @@ public class CommandsManager implements TabExecutor{
         	}
             StringUtil.copyPartialMatches(args[0], commands, completions);
         }
+        
+        String[] cmdsNeedArenaList = {"join", "getinfo", "set", "spec", "spectate", "reset", "delete"};
+        List<String> test = Arrays.asList(cmdsNeedArenaList);
+        
+        if(args.length == 2) {
+        	if(test.contains(args[0])) {
+            	arenas.getArenaList().forEach((n) -> commands.add(n));
+                StringUtil.copyPartialMatches(args[1], commands, completions);
+            }
+        }
+        
         Collections.sort(completions);
         return completions;
 	}

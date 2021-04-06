@@ -63,7 +63,6 @@ public class ArenaEditor {
 		}
 	}
 	
-	
 	@Override
 	public String toString() {
 		String arenaName = "";

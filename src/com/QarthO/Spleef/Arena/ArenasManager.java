@@ -69,6 +69,10 @@ public class ArenasManager {
 	public Set<String> getArenaList() {
 		return storage.getArenaList();
 	}
+
+	public Arena getArena(String arenaName) {
+		return storage.loadArena(arenaName);
+	}
 	
 	public Set<ArenaEditor> getEditors(){
 		return editors;

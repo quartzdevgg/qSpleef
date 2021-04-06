@@ -1,13 +1,9 @@
 package com.QarthO.Spleef.Arena;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -54,11 +50,6 @@ public class Arena {
 		this.create_floor();
 	}
 	
-	
-	public String printLocation(Location loc) {
-		return "(" + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ() + ")";
-	}
-	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -92,7 +83,7 @@ public class Arena {
 	}
 	
 	public void setJoinLoc(Location loc) {
-		loc.add(0.5,2,0.5);
+		loc.add(0,1.5,0);
 		loc_join = loc;
 	}
 	
@@ -101,7 +92,7 @@ public class Arena {
 	}
 	
 	public void setSpecLoc(Location loc) {
-		loc.add(0.5,2,0.5);
+		loc.add(0,1.5,0);
 		loc_spec = loc;
 	}
 	
@@ -116,6 +107,30 @@ public class Arena {
 	public Material getFloorType() {
 		return floor_type;
 	}
+	
+	public void create_floor() {
+		
+		if(floor_loc1.getY() != floor_loc2.getY()) return;
+		
+        int topBlockX = (floor_loc1.getBlockX() < floor_loc2.getBlockX() ? floor_loc2.getBlockX() : floor_loc1.getBlockX());
+        int bottomBlockX = (floor_loc1.getBlockX() > floor_loc2.getBlockX() ? floor_loc2.getBlockX() : floor_loc1.getBlockX());
+ 
+        int topBlockZ = (floor_loc1.getBlockZ() < floor_loc2.getBlockZ() ? floor_loc2.getBlockZ() : floor_loc1.getBlockZ());
+        int bottomBlockZ = (floor_loc1.getBlockZ() > floor_loc2.getBlockZ() ? floor_loc2.getBlockZ() : floor_loc1.getBlockZ());
+        
+        this.floor_level = (int)floor_loc1.getY();
+        
+        for(int x = bottomBlockX; x <= topBlockX; x++)
+        {
+            for(int z = bottomBlockZ; z <= topBlockZ; z++)
+            {
+                Block block = floor_loc1.getWorld().getBlockAt(x, floor_level, z);
+                floor.add(block);
+            }
+        }
+    }
+
+	//////
 	
 	public void player_join(Player player) {
 		player_list.put(player, 1);
@@ -134,41 +149,19 @@ public class Arena {
 		if(loc_back_list.get(player) == null) loc_back_list.put(player, player.getLocation());
 		player.teleport(loc_spec);
 	}
-		
-	public void create_floor() {
-		
-		if(floor_loc1.getY() != floor_loc2.getY()) return;
-		
-        int topBlockX = (floor_loc1.getBlockX() < floor_loc2.getBlockX() ? floor_loc2.getBlockX() : floor_loc1.getBlockX());
-        int bottomBlockX = (floor_loc1.getBlockX() > floor_loc2.getBlockX() ? floor_loc2.getBlockX() : floor_loc1.getBlockX());
- 
-        int topBlockZ = (floor_loc1.getBlockZ() < floor_loc2.getBlockZ() ? floor_loc2.getBlockZ() : floor_loc1.getBlockZ());
-        int bottomBlockZ = (floor_loc1.getBlockZ() > floor_loc2.getBlockZ() ? floor_loc2.getBlockZ() : floor_loc1.getBlockZ());
-        
-        this.floor_level = (int)floor_loc1.getY();
-        
-        for(int x = bottomBlockX; x <= topBlockX; x++)
-        {
-            for(int z = bottomBlockZ; z <= topBlockZ; z++)
-            {
-                Block block = floor_loc1.getWorld().getBlockAt(x, floor_level, z);
-                this.floor.add(block);
-            }
-        }
-    }
 	
-	public TextComponent getHover() {
-		TextComponent message = new TextComponent("Click me");
-		message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org"));
-		message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the Spigot website!")));
-		return message;
+	public void replaceFloor() {
+		if(floor == null) this.create_floor();
+		for(Block block : floor) {
+			block.setType(floor_type);
+		}
 	}
+	
 	
 	@Override
 	public String toString() {
-		String str = 	Language.CHAT_PREFIX.getMessage() + "Arena: " + name + " | World: " + world.getName() + "\n" +
-						Language.CHAT_PREFIX.getMessage() + "Zone: " + Language.LOCATION.loc(floor_loc1) + " <-> " + Language.LOCATION.loc(floor_loc2) + "\n" +
-						Language.CHAT_PREFIX.getMessage() + "Join: " + Language.LOCATION.loc(loc_join) + " | Spec: " + Language.LOCATION.loc(floor_loc2);
+		String str = 	Language.CHAT_PREFIX.getMessage() + ChatColor.YELLOW + name + " Zone: " + Language.LOCATION.loc(floor_loc1) + " <-> " + Language.LOCATION.loc(floor_loc2) + "\n" +
+						Language.CHAT_PREFIX.getMessage() + ChatColor.YELLOW + "Join: " + Language.LOCATION.loc(loc_join) + " | Spec: " + Language.LOCATION.loc(floor_loc2);
 		return str;
 	}
 }

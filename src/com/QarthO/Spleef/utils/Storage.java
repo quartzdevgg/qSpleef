@@ -36,7 +36,6 @@ public class Storage {
 				Bukkit.getServer().getConsoleSender().sendMessage(Language.CHAT_PREFIX.getMessage() + Language.ARENA_YML.getMessage());
 			} catch(IOException e) {
 				Bukkit.getServer().getConsoleSender().sendMessage(Language.CHAT_PREFIX.getMessage() + Language.ERROR_FAILED_ARENA_YML_CREATE.getMessage());
-				Bukkit.getServer().getConsoleSender().sendMessage(e.getLocalizedMessage());
 			}
 		}
 		
@@ -108,6 +107,8 @@ public class Storage {
 		loc = this.loadLoc(world, name + ".spec");
 		arena.setJoinLoc(loc);
 		
+		arena.create_floor();
+		
 		return arena;
 	}
 	
@@ -127,7 +128,6 @@ public class Storage {
 			}
 			
 		}
-		Bukkit.getConsoleSender().sendMessage(Language.CHAT_PREFIX.getMessage() + "Arena List: " + arenaList);
 		return arenaList;
 	}
 	
@@ -141,8 +141,8 @@ public class Storage {
 	public Location loadLoc(World world, String path) {
 		Location loc = new Location(world, 0, 0, 0);
 		loc.setX(arenasCfg.getDouble(path + ".x"));
-		loc.setX(arenasCfg.getDouble(path + ".y"));
-		loc.setX(arenasCfg.getDouble(path + ".z"));
+		loc.setY(arenasCfg.getDouble(path + ".y"));
+		loc.setZ(arenasCfg.getDouble(path + ".z"));
 		return loc;
 	}
 	
