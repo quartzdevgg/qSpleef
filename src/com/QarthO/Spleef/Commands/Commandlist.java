@@ -1,6 +1,7 @@
 package com.QarthO.Spleef.Commands;
 
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,13 +12,13 @@ import com.QarthO.Spleef.Game.GamesManager;
 import com.QarthO.Spleef.utils.Language;
 import com.QarthO.Spleef.utils.FormatMessage;
 
-public class Commandcreate extends qCommand {
+public class Commandlist extends qCommand {
 
-	public Commandcreate(CommandsManager cm, ArenasManager am, GamesManager gm) {
+	public Commandlist(CommandsManager cm, ArenasManager am, GamesManager gm) {
 		super(cm, am, gm);
-		name = "create";
-		perms = "spleef.admin.create";
-		syntax = "/spleef create <arena_name>";
+		name = "list";
+		perms = "spleef.player.list";
+		syntax = "/spleef list";
 	}
 
 	@Override
@@ -27,20 +28,13 @@ public class Commandcreate extends qCommand {
 			player.sendMessage(Language.ERROR_NO_PERMISSIONS.getMessage());
 			return;
 		}
-		if(args.length != 2) {
+		if(args.length != 1) {
 			player.sendMessage(FormatMessage.syntax(syntax));
 			return;
 		}
 		
-		String arenaName = args[1];
-		
-		if(am.exists(arenaName)) {
-			player.sendMessage(ChatColor.RED + "Error: Arena " + ChatColor.YELLOW + arenaName + ChatColor.RED + " already exists!" );
-			return;
-		} 
-		
-		am.createArena(player, arenaName);
-		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Creating arena: " + ChatColor.YELLOW + arenaName + ChatColor.GREEN + "...");
+		Set<String> arenaList = am.getArenaList();
+		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Arenas: " + ChatColor.YELLOW + arenaList);
 		
 	}
 

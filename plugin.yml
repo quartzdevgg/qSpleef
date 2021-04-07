@@ -4,5 +4,5 @@ version: 1.0
 api-version: 1.16
 commands:
   spleef:
-     description: Spleef Command
-     permission: qspleef.cmd
+     description: qSpleef commands reference '/spleef help'
+     aliases: [qspleef]

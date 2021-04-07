@@ -11,20 +11,21 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import com.QarthO.Spleef.Main;
 import com.QarthO.Spleef.Arena.Arena;
 
 public class Storage {
 
+	private Plugin plugin = Main.getPlugin(Main.class);
 	public FileConfiguration arenasCfg;
 	public File arenasFile;
 	FileConfiguration config;
 	
-	
-	public Storage(Main plugin) {
+	public Storage() {
 		
-		this.config = plugin.getConfig();
+		config = plugin.getConfig();
 		config.options().copyDefaults(true);
 		plugin.saveConfig();
 		

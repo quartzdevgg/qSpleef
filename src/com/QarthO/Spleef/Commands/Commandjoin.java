@@ -6,18 +6,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.QarthO.Spleef.CommandsManager;
+import com.QarthO.Spleef.Arena.Arena;
 import com.QarthO.Spleef.Arena.ArenasManager;
 import com.QarthO.Spleef.Game.GamesManager;
 import com.QarthO.Spleef.utils.Language;
 import com.QarthO.Spleef.utils.FormatMessage;
 
-public class Commandcreate extends qCommand {
+public class Commandjoin extends qCommand {
 
-	public Commandcreate(CommandsManager cm, ArenasManager am, GamesManager gm) {
+	GamesManager gm;
+	public Commandjoin(CommandsManager cm, ArenasManager am, GamesManager gm) {
 		super(cm, am, gm);
-		name = "create";
-		perms = "spleef.admin.create";
-		syntax = "/spleef create <arena_name>";
+		this.gm = gm;
+		name = "spectate";
+		perms = "spleef.player.join";
+		syntax = "/spleef join <arena_name>";
 	}
 
 	@Override
@@ -34,13 +37,13 @@ public class Commandcreate extends qCommand {
 		
 		String arenaName = args[1];
 		
-		if(am.exists(arenaName)) {
-			player.sendMessage(ChatColor.RED + "Error: Arena " + ChatColor.YELLOW + arenaName + ChatColor.RED + " already exists!" );
+		if(!am.exists(arenaName)) {
+			player.sendMessage(ChatColor.RED + "Error: Arena " + ChatColor.YELLOW + arenaName + ChatColor.RED + " doesn't exist!" );
 			return;
 		} 
 		
-		am.createArena(player, arenaName);
-		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Creating arena: " + ChatColor.YELLOW + arenaName + ChatColor.GREEN + "...");
+		Arena arena = am.getArena(arenaName);
+		gm.join(player, arena);
 		
 	}
 

@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.QarthO.Spleef.utils.Language;
+import com.QarthO.Spleef.utils.FormatMessage;
 
 public class Arena {
 	
@@ -160,8 +161,8 @@ public class Arena {
 	
 	@Override
 	public String toString() {
-		String str = 	Language.CHAT_PREFIX.getMessage() + ChatColor.YELLOW + name + " Zone: " + Language.LOCATION.loc(floor_loc1) + " <-> " + Language.LOCATION.loc(floor_loc2) + "\n" +
-						Language.CHAT_PREFIX.getMessage() + ChatColor.YELLOW + "Join: " + Language.LOCATION.loc(loc_join) + " | Spec: " + Language.LOCATION.loc(floor_loc2);
+		String str = 	Language.CHAT_PREFIX.getMessage() + ChatColor.YELLOW + name + " Zone: " + FormatMessage.loc(floor_loc1) + " <-> " + FormatMessage.loc(floor_loc2) + "\n" +
+						Language.CHAT_PREFIX.getMessage() + ChatColor.YELLOW + "Join: " + FormatMessage.loc(loc_join) + " | Spec: " + FormatMessage.loc(floor_loc2);
 		return str;
 	}
 }

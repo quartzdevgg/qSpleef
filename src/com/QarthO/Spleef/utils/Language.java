@@ -1,46 +1,42 @@
 package com.QarthO.Spleef.utils;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-
 
 public enum Language {
 		
 	//Chat Prefix
 	CHAT_PREFIX(false, ChatColor.AQUA + "[" + ChatColor.GRAY + "%n" + ChatColor.AQUA + "] " + ChatColor.RESET),
 	
-	CMD_INFO(true, ChatColor.LIGHT_PURPLE +  "%n v%v\n" 
+	CMD_INFO(true, ChatColor.LIGHT_PURPLE +  "%n v%v - " + ChatColor.YELLOW + "qDev" + ChatColor.LIGHT_PURPLE + " Plugin\n" 
 			+ "%p" + ChatColor.LIGHT_PURPLE + "Try " + ChatColor.YELLOW + "/%c help" + ChatColor.LIGHT_PURPLE + " for more info"),
 	
 	
 	//Chat UI Border
-	BORDER_TOP(false, ChatColor.AQUA + "" + ChatColor.STRIKETHROUGH + "   " + ChatColor.AQUA + "[" + ChatColor.GRAY + " %n v%v" + ChatColor.AQUA + " ]" + ChatColor.STRIKETHROUGH + "                    "),
-	BORDER_BOTTOM(false, ChatColor.AQUA + "" + ChatColor.STRIKETHROUGH + "                                          "),
+	BORDER_TOP(false, ChatColor.AQUA + "" + ChatColor.STRIKETHROUGH + "   " + ChatColor.AQUA + "[" + ChatColor.GRAY + " %n v%v" + ChatColor.AQUA + " ]" + ChatColor.STRIKETHROUGH + "                                        "),
+	BORDER_BOTTOM(false, ChatColor.AQUA + "" + ChatColor.STRIKETHROUGH + "                                                              "),
 	
 	//Help
 	HELP(false, ChatColor.YELLOW + "/spleef\n"
-			+ "/%c join\n" 
-			+ "/%c leave\n"
-			+ "/%c spectate"),
+			+ "/%c join <arena_name>\n" 
+			+ "/%c leave <arena_name>\n"
+			+ "/%c spectate <arena_name>\n"
+			+ "/%c list"),
 	
-	HELP_MOD(false, ChatColor.YELLOW + "/%c force start\n"
-			+ "/%c force end"),
+	HELP_MOD(false, ChatColor.YELLOW + "/%c force <start/end>"),
 	
-	HELP_ADMIN(false, ChatColor.YELLOW + "/%c force start\n"
-			+ "%c force end\n"
-			+ "/%c create\n"
-			+ "/%c set spectate\n"
-			+ "/%c set start"),
+	HELP_ADMIN(false, ChatColor.YELLOW + "/%c create <arena_name>\n"
+			+ "/%c delete <arena_name>\n"
+			+ "/%c set <zone/start/spectate>"),
 	
 	
 	
 	// Syntax
 	SYNTAX_CREATE(true, ChatColor.RED + "Syntax: /spleef create <arena_name>"),
 	SYNTAX_DELETE(true, ChatColor.RED + "Syntax: /spleef delete <arena_name>"),
-	SYNTAX_SET(true, ChatColor.RED + "Syntax: /spleef set <join|spec|zone>"),
+	SYNTAX_SET(true, ChatColor.RED + "Syntax: /spleef set <join/spec/zone>"),
 	SYNTAX_RESET(true, ChatColor.RED + "Syntax: /spleef reset <arena_name>"),
 	
-	
+	SYNTAX(true, ChatColor.RED + "Syntax: %syntax"),
 	
 	
 	//Errors - In game
@@ -62,10 +58,10 @@ public enum Language {
 	LOCATION(false, "(x, y, z)");
 	
 	String Message;
-	
-	private String version = "1.0";
-	private String project_name = "qSpleef";
-	private String author = "QarthO";
+	private PluginYML yml = new PluginYML();
+	private String version = yml.getPluginVersion();
+	private String project_name = yml.getProjectName();
+	private String author = yml.getPluginAuthor();
 	private String cmd = "spleef";
 	private String msg_prefix = ChatColor.AQUA + "[" + ChatColor.GRAY + project_name + ChatColor.AQUA + "] " + ChatColor.RESET;
 	
@@ -82,14 +78,6 @@ public enum Language {
 	}
 	
 	public String getMessage() {
-		return Message;
-	}
-	
-	public String loc(Location loc) {
-		Message = Message.replaceAll("x", "" + loc.getX());
-		Message = Message.replaceAll("y", "" + loc.getY());
-		Message = Message.replaceAll("z", "" + loc.getZ());
-
 		return Message;
 	}
 

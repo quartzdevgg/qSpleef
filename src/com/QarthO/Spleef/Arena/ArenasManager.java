@@ -13,10 +13,9 @@ public class ArenasManager {
 	Storage storage;
 	Set<Arena> arenas;
 	Set<ArenaEditor> editors = new HashSet<ArenaEditor>();
-
 	
-	public ArenasManager(Storage storage) {
-		this.storage = storage;
+	public ArenasManager() {
+		storage = new Storage();
 	}
 	
 	

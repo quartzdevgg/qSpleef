@@ -3,7 +3,7 @@ package com.QarthO.Spleef.Arena;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.QarthO.Spleef.utils.Language;
+import com.QarthO.Spleef.utils.FormatMessage;
 
 public class ArenaEditor {
 		
@@ -45,7 +45,7 @@ public class ArenaEditor {
 	
 	public void sendFinishStatus(Location loc) {
 		String msg = step.getMessageFinish();
-		msg = msg.replaceAll("%loc", Language.LOCATION.loc(loc));
+		msg = msg.replaceAll("%loc", FormatMessage.loc(loc));
 		msg = msg.replaceAll("%arena", arena.getName());
 		if(creating) msg = msg.replaceAll("%f", "created");
 		else msg = msg.replaceAll("%f", "updated");

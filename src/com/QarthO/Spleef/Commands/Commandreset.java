@@ -11,13 +11,13 @@ import com.QarthO.Spleef.Game.GamesManager;
 import com.QarthO.Spleef.utils.Language;
 import com.QarthO.Spleef.utils.FormatMessage;
 
-public class Commandcreate extends qCommand {
+public class Commandreset extends qCommand {
 
-	public Commandcreate(CommandsManager cm, ArenasManager am, GamesManager gm) {
+	public Commandreset(CommandsManager cm, ArenasManager am, GamesManager gm) {
 		super(cm, am, gm);
-		name = "create";
-		perms = "spleef.admin.create";
-		syntax = "/spleef create <arena_name>";
+		name = "reset";
+		perms = "spleef.admin.reset";
+		syntax = "/spleef reset <arena_name>";
 	}
 
 	@Override
@@ -34,13 +34,13 @@ public class Commandcreate extends qCommand {
 		
 		String arenaName = args[1];
 		
-		if(am.exists(arenaName)) {
-			player.sendMessage(ChatColor.RED + "Error: Arena " + ChatColor.YELLOW + arenaName + ChatColor.RED + " already exists!" );
+		if(!am.exists(arenaName)) {
+			player.sendMessage(ChatColor.RED + "Error: Arena " + ChatColor.YELLOW + arenaName + ChatColor.RED + " doesn't exist!" );
 			return;
 		} 
 		
-		am.createArena(player, arenaName);
-		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Creating arena: " + ChatColor.YELLOW + arenaName + ChatColor.GREEN + "...");
+		am.getArena(arenaName).replaceFloor();
+		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Arena " + ChatColor.YELLOW + arenaName + ChatColor.GREEN + "'s floor reset");
 		
 	}
 
