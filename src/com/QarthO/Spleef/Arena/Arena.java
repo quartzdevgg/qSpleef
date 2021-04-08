@@ -1,7 +1,8 @@
 package com.QarthO.Spleef.Arena;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,11 +17,9 @@ import com.QarthO.Spleef.utils.FormatMessage;
 public class Arena {
 	
 	HashMap<Player, Integer> player_list = new HashMap<Player, Integer>();
-		//k = Player
-		//v = role (1:join,2:in,3:out, 4:just spec)
 	HashMap<Player, Location> loc_back_list = new HashMap<Player, Location>();
 	
-	ArrayList<Block> floor = new ArrayList<Block>();
+	Set<Block> floor = new HashSet<Block>();
 	int floor_level;
 	Material floor_type = Material.SNOW_BLOCK;
 	
@@ -107,6 +106,10 @@ public class Arena {
 	
 	public Material getFloorType() {
 		return floor_type;
+	}
+	
+	public Set<Block> getFloor(){
+		return floor;
 	}
 	
 	public void create_floor() {

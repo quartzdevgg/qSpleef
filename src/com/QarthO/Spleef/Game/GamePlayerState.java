@@ -1,5 +1,5 @@
 package com.QarthO.Spleef.Game;
 
 public enum GamePlayerState {
-	JOINING, PLAYING, OUT, SPEC
+	JOINING, IN, OUT, SPEC, LEFT
 }

@@ -24,6 +24,7 @@ abstract public class qCommand {
 		this.pluginYML = new PluginYML();
 		this.cm = cm;
 		this.am = am;
+		this.gm = gm;
 	}
 	
 	public abstract void run(Player player, String[] args);

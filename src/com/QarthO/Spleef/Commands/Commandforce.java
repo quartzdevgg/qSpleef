@@ -11,36 +11,49 @@ import com.QarthO.Spleef.Game.GamesManager;
 import com.QarthO.Spleef.utils.Language;
 import com.QarthO.Spleef.utils.FormatMessage;
 
-public class Commandjoin extends qCommand {
+public class Commandforce extends qCommand {
 
-	public Commandjoin(CommandsManager cm, ArenasManager am, GamesManager gm) {
+	
+	public Commandforce(CommandsManager cm, ArenasManager am, GamesManager gm) {
 		super(cm, am, gm);
 		name = "spectate";
-		perms = "spleef.player.join";
-		syntax = "/spleef join <arena_name>";
+		perms = "spleef.admin.info";
+		syntax = "/spleef force <start/end> <arena_name>";
 	}
 
 	@Override
 	public void run(Player player, String[] args) {
-		
 		if(!player.hasPermission(perms)) {
 			player.sendMessage(Language.ERROR_NO_PERMISSIONS.getMessage());
 			return;
 		}
-		if(args.length != 2) {
+		if(args.length != 3) {
 			player.sendMessage(FormatMessage.syntax(syntax));
 			return;
 		}
 		
-		String arenaName = args[1];
+		if(!args[1].equalsIgnoreCase("start") || args[1].equalsIgnoreCase("stop")) {
+			player.sendMessage(FormatMessage.syntax(syntax));
+			return;
+		}
+		
+		String arenaName = args[2];
 		
 		if(!am.exists(arenaName)) {
-			player.sendMessage(ChatColor.RED + "Error: Arena " + ChatColor.YELLOW + arenaName + ChatColor.RED + " doesn't exist!" );
+			player.sendMessage(FormatMessage.error("Arena " + ChatColor.YELLOW + arenaName + ChatColor.RED + " doesn't exist!"));
 			return;
-		} 
+		}
 		
-		gm.join(player, arenaName);
+		if(args[1].equalsIgnoreCase("start")){
+			gm.start(arenaName);
+		}
 		
+		if(args[1].equalsIgnoreCase("stp[")){
+			//gm.stop(arenaName);
+		}
+
+		player.sendMessage(Language.CHAT_PREFIX.getMessage() + "Force " + args[1] + "ing " + arenaName);
+			
 	}
 
 	@Override

@@ -13,41 +13,71 @@ public class GamePlayer {
 	Arena arena;
 	GamePlayerState state;
 	
-	public GamePlayer(Player player, Arena arena) {
+	public GamePlayer(Player player) {
 		this.player = player;
+	}
+	
+	public void setArena(Arena arena) {
 		this.arena = arena;
+	}
+	
+	public Arena getArena() {
+		return arena;
 	}
 	
 	public GamePlayerState getState() {
 		return state;
 	}
 	
+
 	public void setState(GamePlayerState state) {
+		this.state = state;		
+	}
+	
+	public void join(Arena arena) {
+		setState(GamePlayerState.JOINING);
+		setArena(arena);
+		arena.player_join(player);
+		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "You've joined " + ChatColor.YELLOW + arena.getName());
+	}
+	
+	public void leave() {
+		setState(GamePlayerState.LEFT);
+		arena.player_leave(player);
+		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "You've left " + ChatColor.YELLOW + arena.getName());
+	
+	}
+	
+	public void out() {
+		setState(GamePlayerState.OUT);
+		arena.player_spec(player);
+		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.RED + "You're out! You'll auto-leave when the round is over");
+	}
+	
+	public void start() {
+		setState(GamePlayerState.IN);
+		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "You're now playing. Don't fall or you'll be out!");
+	}
+	
+	public void spec() {
+		setState(GamePlayerState.SPEC);
+		arena.player_spec(player);
+		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Spectating " + ChatColor.YELLOW + arena.getName() + ". You can type " + ChatColor.YELLOW + " /spleef leave " + ChatColor.RED + "to leave now");
 		
-		if(state == GamePlayerState.JOINING) {
-			
-			arena.player_join(player);
-			player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Joined " + ChatColor.YELLOW + arena.getName());
-		}
+	}
+	
+	public String getName() {
+		return player.getName();
+	}
+	
+	@Override
+	public String toString() {
 		
-		if(state == GamePlayerState.OUT) {
-			
-			arena.player_spec(player);
-			player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.RED + "You're out! You'll auto-leave when the round is over");
-		}
+		String str = ChatColor.YELLOW + "(";
+		str = str + player.getName() + ", ";
+		str = str + state + ", ";
+		str = str + arena.getName() + ")";
 		
-		if(state == GamePlayerState.PLAYING) {
-			
-			player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "You're now playing. Don't fall or you'll be out!");
-		}
-		
-		if(state == GamePlayerState.SPEC) {
-			
-			arena.player_spec(player);
-			player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Spectating " + ChatColor.YELLOW + arena.getName() + ". You can type " + ChatColor.YELLOW + " /spleef leave " + ChatColor.RED + "to leave now");
-		}
-		
-		this.state = state;
-		
+		return str + ChatColor.WHITE;
 	}
 }

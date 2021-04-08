@@ -21,7 +21,7 @@ public class Main extends JavaPlugin{
     	am = new ArenasManager();
     	gm = new GamesManager(am);
     	playerInteractListener = new PlayerInteractListener(am);
-    	blockBreakListener = new BlockBreakListener(am);
+    	blockBreakListener = new BlockBreakListener(gm);
     	    	
     	this.getCommand("spleef").setExecutor(new CommandsManager(am, gm));
     	this.getServer().getPluginManager().registerEvents(blockBreakListener, this);

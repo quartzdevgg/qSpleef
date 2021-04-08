@@ -1,7 +1,7 @@
 package com.QarthO.Spleef.Game;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 import org.bukkit.entity.Player;
 
@@ -11,8 +11,6 @@ import com.QarthO.Spleef.utils.FormatMessage;
 
 public class GamesManager {
 
-	Set<Game> games;
-	
 	HashMap<Player, GamePlayer> playersMap;
 	HashMap<String, Game> gamesMap;
 	
@@ -32,28 +30,54 @@ public class GamesManager {
 		return playersMap.get(player);
 	}
 	
-	public Game getGame(Arena arena) {
-		return gamesMap.get(arena.getName());
-	}
-	
 	public boolean isActive(String arenaName) {
 		return gamesMap.containsKey(arenaName);
 	}
+	
+	public Game getGame(String arenaName) {
+		Arena arena = am.getArena(arenaName);
+		if(!isActive(arenaName)) {
+			gamesMap.put(arenaName, new Game(arena));
+		} 
+		Game game = gamesMap.get(arenaName);
+		return game;
+		
+	}
+	
+	public Collection<Game> getGames(){
+		return gamesMap.values();
+	}
 
-	public void join(Player player, Arena arena) {
-		String arenaName = arena.getName();
+	public void join(Player player, String arenaName) {
+				
 		if(isPlaying(player)) {
 			player.sendMessage(FormatMessage.error("Already in a game"));
 			return;
 		}
+
+		GamePlayer gPlayer = new GamePlayer(player);
+		playersMap.put(player, gPlayer);
+
+		Game game = getGame(arenaName);
 		
-		if(!isActive(arenaName)){
-			Game game = new Game(arena, playersMap);
-			gamesMap.put(arenaName, game);
-		} else {
-			Game game = gamesMap.get(arenaName);
-			game.addPlayer(player, GamePlayerState.JOINING);
-		}
+		game.joinPlayer(gPlayer);
+		
 	}
 	
+	public void leave(Player player) {
+		if(!isPlaying(player)) {
+			player.sendMessage(FormatMessage.error("You're not in a game"));
+			return;
+		}
+		GamePlayer gPlayer = playersMap.get(player);
+		Game game = getGame(gPlayer.getArena().getName());
+		game.leavePlayer(gPlayer);
+		playersMap.remove(player);
+	}
+	
+	public void start(String arenaName) {
+		Game game = getGame(arenaName);
+		game.start();
+		
+	}
 }

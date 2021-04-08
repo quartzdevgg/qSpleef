@@ -22,7 +22,7 @@ public enum Language {
 			+ "/%c spectate <arena_name>\n"
 			+ "/%c list"),
 	
-	HELP_MOD(false, ChatColor.YELLOW + "/%c force <start/end>"),
+	HELP_MOD(false, ChatColor.YELLOW + "/%c force <start/end> <arena_name>"),
 	
 	HELP_ADMIN(false, ChatColor.YELLOW + "/%c create <arena_name>\n"
 			+ "/%c delete <arena_name>\n"

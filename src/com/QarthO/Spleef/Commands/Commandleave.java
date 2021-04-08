@@ -2,18 +2,16 @@ package com.QarthO.Spleef.Commands;
 
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.QarthO.Spleef.CommandsManager;
-import com.QarthO.Spleef.Arena.Arena;
 import com.QarthO.Spleef.Arena.ArenasManager;
 import com.QarthO.Spleef.Game.GamesManager;
 import com.QarthO.Spleef.utils.Language;
 import com.QarthO.Spleef.utils.FormatMessage;
 
 public class Commandleave extends qCommand {
-
+	
 	public Commandleave(CommandsManager cm, ArenasManager am, GamesManager gm) {
 		super(cm, am, gm);
 		name = "spectate";
@@ -32,13 +30,14 @@ public class Commandleave extends qCommand {
 			player.sendMessage(FormatMessage.syntax(syntax));
 			return;
 		}
-		
-		String arenaName = args[1];
+
+		if(!gm.isPlaying(player)) {
+			player.sendMessage(FormatMessage.error("You're not in a game"));
+			return;
+		}
 		//Arena arena 
 		
-		Arena arena = am.getArena(arenaName);
-		arena.player_leave(player);
-		player.sendMessage(Language.CHAT_PREFIX.getMessage() + ChatColor.GREEN + "Now spectating " + ChatColor.YELLOW + arenaName);
+		gm.leave(player);
 		
 	}
 
