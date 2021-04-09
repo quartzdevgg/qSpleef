@@ -1,7 +1,5 @@
 package com.QarthO.Spleef.listeners;
 
-import java.util.Collection;
-
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,10 +24,8 @@ public class BlockBreakListener implements Listener{
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		Block eventBlock = event.getBlock();
-		
-		Collection<Game> games = gm.getGames();
-		
-		for(Game game: games) {
+				
+		for(Game game: gm.getGames()) {
 			for(Block gameBlock: game.getFloor()) {
 				if(eventBlock.equals(gameBlock)) {
 					if(game.getState() != GameState.RUNNING) {

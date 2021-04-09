@@ -2,7 +2,6 @@ package com.QarthO.Spleef.Commands;
 
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.QarthO.Spleef.CommandsManager;
@@ -10,7 +9,6 @@ import com.QarthO.Spleef.Arena.ArenasManager;
 import com.QarthO.Spleef.Game.Game;
 import com.QarthO.Spleef.Game.GamesManager;
 import com.QarthO.Spleef.utils.Language;
-import com.QarthO.Spleef.utils.FormatMessage;
 
 public class Commanddebug extends qCommand {
 
@@ -33,11 +31,12 @@ public class Commanddebug extends qCommand {
 //			return;
 //		}
 		
-		String arenaName = args[1];
-		
-		Game game = gm.getGame(arenaName);
-		player.sendMessage(Language.CHAT_PREFIX.getMessage() + game.getPlayers());
-		player.sendMessage(Language.CHAT_PREFIX.getMessage() + game.getInPlayers());
+		if(args.length == 2) {
+			String arenaName = args[1];
+			Game game = gm.getGame(arenaName);
+			player.sendMessage(Language.CHAT_PREFIX.getMessage() + game.getPlayers());
+			player.sendMessage(Language.CHAT_PREFIX.getMessage() + game.getInPlayers());
+		}
 		
 	}
 

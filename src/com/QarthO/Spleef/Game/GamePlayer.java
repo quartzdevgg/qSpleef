@@ -70,6 +70,10 @@ public class GamePlayer {
 		return player.getName();
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	@Override
 	public String toString() {
 		

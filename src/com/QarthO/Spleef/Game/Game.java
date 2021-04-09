@@ -73,6 +73,10 @@ public class Game {
 		return state;
 	}
 	
+	public int getFloorLevel() {
+		return arena.getFloorLevel();
+	}
+	
 	public Set<Player> getPlayers() {
 		Set<Player> players = new HashSet<Player>();
 		for(GamePlayer gp : this.players) {
@@ -123,9 +127,10 @@ public class Game {
 	
 	public void outPlayer(GamePlayer gPlayer) {
 		gPlayer.out();
-		
-		if(getInPlayers().size() == 1)
-			getInPlayers().forEach(n -> winner = n);
+		int playerInSize = getInPlayers().size();
+		if(playerInSize < 2)
+			if(playerInSize == 1)
+				getInPlayers().forEach(n -> winner = n);
 			end();
 		
 

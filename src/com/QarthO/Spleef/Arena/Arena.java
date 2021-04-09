@@ -112,9 +112,14 @@ public class Arena {
 		return floor;
 	}
 	
+	public int getFloorLevel() {
+		return floor_level;
+	}
+	
 	public void create_floor() {
 		
 		if(floor_loc1.getY() != floor_loc2.getY()) return;
+		floor_level = floor_loc1.getBlockY();
 		
         int topBlockX = (floor_loc1.getBlockX() < floor_loc2.getBlockX() ? floor_loc2.getBlockX() : floor_loc1.getBlockX());
         int bottomBlockX = (floor_loc1.getBlockX() > floor_loc2.getBlockX() ? floor_loc2.getBlockX() : floor_loc1.getBlockX());
