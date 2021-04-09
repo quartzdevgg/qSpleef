@@ -5,10 +5,13 @@ Current Features:
 1. Create/Delete spleef arenas
 2. Saves arena to file
 3. join arena tps to arena, leaving arena tps back
-4. can force start arena
-5. when arena starts, floor can be broken, 
-6. if a player in the arena falls below the floor, state updated to out, and teleported to spectate location
-7. when 1 player left, game is finished and last player is broadcasted winner
+4. can specate arena without playing
+5. can force start arena
+6. when arena starts, floor can be broken, 
+7. if a player in the arena falls below the floor, state updated to out, and teleported to spectate location
+8. when 1 player left, game is finished and last player is broadcasted winner
+9. can reset arena floor with command, but floor should auto reset after finished state
+10. '/spleef info <arena>' will get info on an arena, (name, gamestate, players and their respective player state) mainly for admins
 
 
 Todo:
