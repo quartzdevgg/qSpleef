@@ -1,6 +1,16 @@
 # qSpleef
 Spleef plugin - qDev Team
 
+Current Features:
+1. Create/Delete spleef arenas
+2. Saves arena to file
+3. join arena tps to arena, leaving arena tps back
+4. can force start arena
+5. when arena starts, floor can be broken, 
+6. if a player in the arena falls below the floor, state updated to out, and teleported to spectate location
+7. when 1 player left, game is finished and last player is broadcasted winner
+
+
 Todo:
 1. Scoreboard and leaderboard (live scoreboard during game, and leaderboard/stats saved in a database)
 2. Potentionally track floor break to tell who knocked out who, (idk if its plausible)
