@@ -1,5 +1,7 @@
 # qSpleef
-Spleef plugin - qDev Team
+Spleef Bukkit/Spigot plugin - qDev Team
+
+[WIP] Just started developing, still in need of work before stable build
 
 Current Features:
 1. Create/Delete spleef arenas
